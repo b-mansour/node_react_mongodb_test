@@ -6,7 +6,7 @@ passport.use(
     {
       clientID: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-      callbackURL: "http://127.0.0.1:4000/auth/google/callback",
+      callbackURL: "http://localhost:4000/auth/google/",
     },
     function (accessToken, refreshToken, profile, cb) {
       User.findOrCreate({ googleId: profile.id }, function (err, user) {
