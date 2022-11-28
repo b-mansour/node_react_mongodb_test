@@ -1,11 +1,20 @@
 const express = require("express");
+const session = require("express-session");
 const mongoose = require("mongoose");
 const User = require("./models/User");
 const passport = require("passport");
 require("dotenv").config();
-require("./auth");
 const routes = require("./routes");
 const app = express();
+
+require("./auth");
+app.use(session({ secret: "cats" }));
+app.use(passport.initialize());
+app.use(passport.session());
+
+function isLoggedIn(req, res, next) {
+  req.user ? next() : res.sendStatus(401);
+}
 
 const port = process.env.PORT || 4000;
 
@@ -26,23 +35,32 @@ app.get("/", (req, res) => {
   res.send('<a href= "/auth/google"> Authenticate with google </a>');
 });
 
-app.get("/protected", (req, res) => {
+app.get("/protected", isLoggedIn, (req, res) => {
   res.send("Welcome you are logged in");
 });
 
-app.get(
-  "/auth/google",
-  passport.authenticate("google", { scope: ["profile"] })
-);
+app.get("/auth/failure", (req, res) => {
+  res.send("Something went wrong");
+});
+
+app.get("/auth/google", passport.authenticate("google", { scope: ["email"] }));
 
 app.get(
   "/auth/google/callback",
-  passport.authenticate("google", { failureRedirect: "/login" }),
+  passport.authenticate("google", {
+    successRedirect: "/protected",
+    failureRedirect: "/auth/failure",
+  }),
   function (req, res) {
     // Successful authentication, redirect home.
     res.redirect("/");
   }
 );
+
+app.get("/logout", function (req, res) {
+  req.logout();
+  res.send("logged out");
+});
 
 // app.get("/", (req, res) => {
 //   res.send("Hello World!");

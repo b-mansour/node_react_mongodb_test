@@ -1,4 +1,7 @@
 const passport = require("passport");
+const axios = require("axios");
+
+// const User = require("./models/User");
 const GoogleStrategy = require("passport-google-oauth20").Strategy;
 
 passport.use(
@@ -6,12 +9,35 @@ passport.use(
     {
       clientID: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-      callbackURL: "http://localhost:4000/auth/google/",
+      callbackURL: "http://localhost:4000/auth/google/callback",
+      //   passReqToCallback: true,
     },
-    function (accessToken, refreshToken, profile, cb) {
-      User.findOrCreate({ googleId: profile.id }, function (err, user) {
-        return cb(err, user);
-      });
+    async function (accessToken, refreshToken, profile, cb, done) {
+      //   User.findOrCreate({ googleId: profile.id }, function (err, user) {
+      //     return cb(err, user);
+      //   });
+
+      axios
+        .get(process.env.GET_USER_DATA_URL + profile.access_token, {
+          headers: {
+            "Content-Type": "application/json",
+            "Accept-Encoding": "application/json",
+          },
+        })
+        .then(function (response) {
+          // todo: create user
+          console.log(response);
+        })
+        .catch(function (error) {
+          console.log(error);
+        })
+        .finally(function () {
+          console.log("done");
+        });
+
+      console.log(profile);
+
+      return done(null, profile);
     }
   )
 );
