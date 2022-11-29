@@ -1,5 +1,6 @@
 const passport = require("passport");
 const axios = require("axios");
+const User = require("./models/User");
 
 // const User = require("./models/User");
 const GoogleStrategy = require("passport-google-oauth20").Strategy;
@@ -25,17 +26,35 @@ passport.use(
           },
         })
         .then(function (response) {
-          // todo: create user
-          console.log(response);
+          console.log(response.data.email);
+          findOrCreate(response.data.email);
         })
         .catch(function (error) {
           console.log(error);
-        })
-        .finally(function () {
-          console.log("done");
         });
 
-      console.log(profile);
+      // console.log(profile);
+
+      async function findOrCreate(email) {
+        const user = await User.findOne({
+          email: email,
+        });
+
+        if (user === null) {
+          const user = new User({
+            name: email,
+            email: email,
+            password: "12345678",
+          });
+
+          user
+            .save()
+            .then((result) => console.log(result))
+            .catch((err) => console.log(err));
+        } else {
+          console.log(user);
+        }
+      }
 
       return done(null, profile);
     }
