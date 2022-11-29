@@ -18,6 +18,8 @@ passport.use(
       //     return cb(err, user);
       //   });
 
+      // console.log(profile);
+
       axios
         .get(process.env.GET_USER_DATA_URL + profile.access_token, {
           headers: {
@@ -26,7 +28,7 @@ passport.use(
           },
         })
         .then(function (response) {
-          console.log(response.data.email);
+          console.log(response);
           findOrCreate(response.data.email);
         })
         .catch(function (error) {
@@ -52,7 +54,7 @@ passport.use(
             .then((result) => console.log(result))
             .catch((err) => console.log(err));
         } else {
-          console.log(user);
+          // console.log(user);
         }
       }
 

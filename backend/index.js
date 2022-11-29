@@ -30,6 +30,8 @@ mongoose
   .catch((err) => console.log(err));
 
 app.use("/user", routes.userRouter);
+app.use("/listitems", routes.listItemRouter);
+app.use("/categories", routes.categoryRouter);
 
 app.get("/", (req, res) => {
   res.send('<a href= "/auth/google"> Authenticate with google </a>');
@@ -43,7 +45,10 @@ app.get("/auth/failure", (req, res) => {
   res.send("Something went wrong");
 });
 
-app.get("/auth/google", passport.authenticate("google", { scope: ["email"] }));
+app.get(
+  "/auth/google",
+  passport.authenticate("google", { scope: ["email", "profile"] })
+);
 
 app.get(
   "/auth/google/callback",
