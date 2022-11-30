@@ -6,11 +6,14 @@ const passport = require("passport");
 require("dotenv").config();
 const routes = require("./routes");
 const app = express();
+var cors = require("cors");
 
 require("./auth");
+app.use(express.json());
 app.use(session({ secret: "cats" }));
 app.use(passport.initialize());
 app.use(passport.session());
+app.use(cors());
 
 function isLoggedIn(req, res, next) {
   req.user ? next() : res.sendStatus(401);
@@ -29,7 +32,7 @@ mongoose
   )
   .catch((err) => console.log(err));
 
-app.use("/user", routes.userRouter);
+app.use("/users", routes.userRouter);
 app.use("/listitems", routes.listItemRouter);
 app.use("/categories", routes.categoryRouter);
 
