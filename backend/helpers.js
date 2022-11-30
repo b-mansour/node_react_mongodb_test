@@ -1,4 +1,5 @@
 const axios = require("axios");
+const User = require("./models/User");
 
 const helpers = {
   getUserDataByAccessToken: async (token) => {
@@ -16,19 +17,33 @@ const helpers = {
     }
 
     return userinfo;
+  },
 
-    // console.log(userinfo);
-    //   .then(function (response) {
-    //     console.log("infooooooooooooo");
-    //     console.log(response.data);
-    //     userinfo = response.data;
-    //     // findOrCreate(response.data.email);
-    //   })
-    //   .catch(function (error) {
-    //     return error;
-    //   });
+  findOrCreate: async (userinfo) => {
+    var client;
 
-    // return userinfo;
+    try {
+      const user = await User.findOne({
+        email: userinfo.email,
+      });
+      if (user === null) {
+        const user = new User({
+          name: userinfo.name,
+          email: userinfo.email,
+          password: "12345678",
+        });
+        await user.save();
+        console.log(user);
+        client = user;
+      } else {
+        client = user;
+        // console.log(user);
+      }
+    } catch (err) {
+      console.log(err);
+    }
+    // console.log(client);
+    return client;
   },
 };
 
