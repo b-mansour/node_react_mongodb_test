@@ -48,7 +48,7 @@ export default function Home() {
           console.log(item.content);
         });
       })} */}
-      <DragDropContext onDropEnd={(result) => console.log(result)}>
+      <DragDropContext onDragEnd={(result) => console.log(result)}>
         {columns.map((column) => {
           return (
             <Droppable key={column.id} droppableId={column.id}>
@@ -92,6 +92,7 @@ export default function Home() {
                         </Draggable>
                       );
                     })}
+                    {provided.placeholder}
                   </div>
                 );
               }}
