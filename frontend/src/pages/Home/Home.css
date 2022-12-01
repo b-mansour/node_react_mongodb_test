@@ -3,3 +3,17 @@
   justify-content: center;
   height: 100%;
 }
+
+.droppable {
+  padding: 4px;
+  width: 250px;
+  min-height: 500px;
+}
+
+.draggable {
+  user-select: none;
+  padding: 16px;
+  margin: 0 0 7pc 0;
+  min-height: "50px";
+  color: white;
+}
