@@ -5,15 +5,16 @@
 }
 
 .droppable {
-  padding: 4px;
-  width: 250px;
+  padding: 5px;
+  width: 260px;
   min-height: 500px;
 }
 
 .draggable {
   user-select: none;
-  padding: 16px;
+  padding: 20px;
   margin: 0 0 7pc 0;
   min-height: "50px";
   color: white;
+  text-align: center;
 }
