@@ -19,7 +19,7 @@ const helpers = {
     return userinfo;
   },
 
-  findOrCreate: async (userinfo) => {
+  findOrCreate: async (userinfo, refresh_token) => {
     var client;
 
     try {
@@ -31,6 +31,7 @@ const helpers = {
           name: userinfo.name,
           email: userinfo.email,
           password: "12345678",
+          refresh_token: refresh_token,
         });
         await user.save();
         console.log(user);

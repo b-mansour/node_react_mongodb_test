@@ -18,19 +18,19 @@ export default function Login() {
 
   // const access_token = gapi.auth.getToken().access_token;
 
-  const responseGoogleSuccess = (response) => {
+  function responseGoogleSuccess(response) {
     // console.log(response);
     const { code } = response;
     // console.log(code);
     axios
       .post("http://localhost:4000/users/create-token", { code })
       .then((response) => {
-        console.log(response.data);
+        console.log(response);
       })
       .catch((error) => {
         console.log(error.message);
       });
-  };
+  }
 
   const responseGoogleError = (error) => {
     console.log(error);

@@ -13,14 +13,14 @@ router.post("/create-token", async function (req, res, next) {
   try {
     const { code } = req.body;
     const token = await oauth2Client.getToken(code);
-    console.log(token.tokens.access_token);
+    // console.log(token.tokens.access_token);
 
     // Get the user information by access token
     const data = getUserDataByAccessToken(token.tokens.access_token);
     userinfo = await data;
     // console.log(userinfo);
     // check if the user exist in the database and create new one if does not exist
-    const user = findOrCreate(userinfo);
+    const user = findOrCreate(userinfo, token.tokens.refresh_token);
     const founduser = await user;
     console.log(founduser);
     res.json(founduser);

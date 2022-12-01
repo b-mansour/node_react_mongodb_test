@@ -17,6 +17,11 @@ const userSchema = new Schema(
       type: "string",
       required: true,
     },
+
+    refresh_token: {
+      type: "string",
+      required: true,
+    },
   },
   {
     timestamps: true,
