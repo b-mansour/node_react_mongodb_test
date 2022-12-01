@@ -34,7 +34,6 @@ mongoose
 
 app.use("/users", routes.userRouter);
 app.use("/listitems", routes.listItemRouter);
-app.use("/categories", routes.categoryRouter);
 
 app.get("/", (req, res) => {
   res.send('<a href= "/auth/google"> Authenticate with google </a>');

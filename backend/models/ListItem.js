@@ -3,25 +3,22 @@ const Schema = mongoose.Schema;
 
 const listItemSchema = new Schema(
   {
-    title: {
-      type: "string",
-      required: true,
-    },
-
-    description: {
-      type: "string",
-      required: true,
-    },
-
     user: {
       type: "string",
       required: true,
     },
 
-    category: {
-      type: "string",
+    title: {
+      type: "string", // Todo
       required: true,
     },
+
+    items: [
+      {
+        title: "string",
+        content: "string",
+      },
+    ],
   },
   {
     timestamps: true,
