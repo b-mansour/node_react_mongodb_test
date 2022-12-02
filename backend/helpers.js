@@ -30,7 +30,6 @@ const helpers = {
         const user = new User({
           name: userinfo.name,
           email: userinfo.email,
-          password: "12345678",
           refresh_token: refresh_token,
         });
         await user.save();

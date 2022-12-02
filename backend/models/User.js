@@ -13,11 +13,6 @@ const userSchema = new Schema(
       required: true,
     },
 
-    password: {
-      type: "string",
-      required: true,
-    },
-
     refresh_token: {
       type: "string",
       required: true,

@@ -9,11 +9,17 @@ const oauth2Client = new google.auth.OAuth2(
   process.env.REDIRECT_URL
 );
 
+// const oauth2Client = new google.auth.OAuth2({
+//   clientId: process.env.GOOGLE_CLIENT_ID,
+//   clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+//   redirectUri: process.env.REDIRECT_URL,
+// });
+
 router.post("/create-token", async function (req, res, next) {
   try {
     const { code } = req.body;
     const token = await oauth2Client.getToken(code);
-    // console.log(token.tokens.access_token);
+    res.send(token);
 
     // Get the user information by access token
     const data = getUserDataByAccessToken(token.tokens.access_token);
