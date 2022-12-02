@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-const listItemSchema = new Schema(
+const EventSchema = new Schema(
   {
     user: {
       type: "string",
@@ -25,6 +25,6 @@ const listItemSchema = new Schema(
   }
 );
 
-const ListItem = mongoose.model("ListItem", listItemSchema);
+const Event = mongoose.model("Event", EventSchema);
 
-module.exports = ListItem;
+module.exports = Event;

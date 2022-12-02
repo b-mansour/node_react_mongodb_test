@@ -33,7 +33,7 @@ mongoose
   .catch((err) => console.log(err));
 
 app.use("/users", routes.userRouter);
-app.use("/listitems", routes.listItemRouter);
+app.use("/events", routes.listItemRouter);
 
 app.get("/", (req, res) => {
   res.send('<a href= "/auth/google"> Authenticate with google </a>');

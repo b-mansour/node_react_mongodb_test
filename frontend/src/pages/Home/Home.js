@@ -38,8 +38,34 @@ const data = [
   },
 ];
 
+const onDragEnd = (result, columns, setColumns) => {
+  if (!result.destination) {
+    return;
+  }
+
+  console.log(result);
+
+  // else {
+  //   const { source, destination } = result;
+  //   // console.log("source is " + source);
+  //   // console.log("destination is" + destination);
+
+  //   const column = columns[source.droppableId];
+  //   const itemscopy = [...column.items];
+  //   const [removed] = itemscopy.splice(source.index, 1);
+  //   itemscopy.splice(destination.index, 0, removed);
+  //   setColumns({
+  //     ...columns,
+  //     [source.droppableId]: {
+  //       ...column,
+  //       items: itemscopy,
+  //     },
+  //   });
+  // }
+};
+
 export default function Home() {
-  const [columns, setCoumns] = useState(data);
+  const [columns, setColumns] = useState(data);
   return (
     <div className="container">
       {/* {columns.map((column) => {
@@ -48,7 +74,9 @@ export default function Home() {
           console.log(item.content);
         });
       })} */}
-      <DragDropContext onDragEnd={(result) => console.log(result)}>
+      <DragDropContext
+        onDragEnd={(result) => onDragEnd(result, columns, setColumns)}
+      >
         {columns.map((column) => {
           return (
             <Droppable key={column.id} droppableId={column.id}>

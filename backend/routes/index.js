@@ -1,5 +1,5 @@
 const userRouter = require("./userRouter");
-const listItemRouter = require("./listItemRouter");
+const listItemRouter = require("./eventRouter");
 
 const routes = {};
 
