@@ -3,7 +3,7 @@ const Schema = mongoose.Schema;
 
 const EventSchema = new Schema(
   {
-    user: {
+    user_id: {
       type: "string",
       required: true,
     },
@@ -13,10 +13,10 @@ const EventSchema = new Schema(
       required: true,
     },
 
-    items: [
+    events: [
       {
-        title: "string",
-        content: "string",
+        summary: "string",
+        description: "string",
       },
     ],
   },

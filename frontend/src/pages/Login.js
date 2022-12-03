@@ -18,10 +18,7 @@ export default function Login() {
     // console.log(gapi.client());
   });
 
-  // const access_token = gapi.auth.getToken().access_token;
-
   function responseGoogleSuccess(response) {
-    getEvents();
     // console.log(response);
     const { code } = response;
     // console.log(code);
@@ -33,6 +30,8 @@ export default function Login() {
       .catch((error) => {
         console.log(error.message);
       });
+
+    getEvents();
   }
 
   async function getEvents() {
@@ -49,12 +48,32 @@ export default function Login() {
     gapi.client.init({ clientId: clientId }).then(() => {
       gapi.client.load("calendar", "v3", () => {
         gapi.client.calendar.events.list(request).then(function (response) {
-          console.log(response.result.items);
           let events = response.result.items;
+          // console.log(events);
           // todo: add events to db
+          addEvents(events);
         });
       });
     });
+  }
+
+  function addEvents(events) {
+    // console.log(events);
+    const headers = {
+      "Content-Type": "application/json",
+      access_token: gapi.client.getToken().access_token,
+    };
+
+    axios
+      .post("http://localhost:4000/events/add-events", events, {
+        headers: headers,
+      })
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   }
 
   const responseGoogleError = (error) => {

@@ -73,18 +73,18 @@ app.get("/logout", function (req, res) {
 //   res.send("Hello World!");
 // });
 
-app.get("/createuser", (req, res) => {
-  const user = new User({
-    name: "Basher",
-    email: "b.mans77zh@gmail.com",
-    password: "12345678",
-  });
+// app.get("/createuser", (req, res) => {
+//   const user = new User({
+//     name: "Basher",
+//     email: "b.mans77zh@gmail.com",
+//     password: "12345678",
+//   });
 
-  user
-    .save()
-    .then((result) => res.send(result))
-    .catch((err) => res.send(err));
-});
+//   user
+//     .save()
+//     .then((result) => res.send(result))
+//     .catch((err) => res.send(err));
+// });
 
 // app.get("/allusers", (req, res) => {
 //   const users = User.find()
