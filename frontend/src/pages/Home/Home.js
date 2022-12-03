@@ -1,10 +1,13 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
+
 import {
   useGetTodosByIdQuery,
   useGetTodosQuery,
 } from "../../redux/features/service";
 import "./Home.css";
+
+const clientId = process.env.REACT_APP_GOOGLE_CLIENT_ID;
 
 const eventsdata = [
   {
@@ -82,7 +85,8 @@ export default function Home() {
   const [columns, setColumns] = useState(eventsdata);
   return (
     <div className="container">
-      {console.log(allTodosData)}
+      {/* {console.log(allTodosData)} */}
+
       {error ? (
         <>Oh no, there was an error</>
       ) : isLoading ? (

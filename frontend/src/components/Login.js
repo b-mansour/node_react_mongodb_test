@@ -19,9 +19,16 @@ export default function Login() {
   });
 
   function responseGoogleSuccess(response) {
+    // console.log(gapi.client.getToken());
     // console.log(response);
+    // var auth2 = gapi.auth2.getAuthInstance();
+    // var profile = auth2.currentUser.get().getBasicProfile();
+
+    // console.log(profile.getName());
+    // console.log(profile.getEmail());
+
     const { code } = response;
-    // console.log(code);
+    console.log(gapi.client.getToken());
     axios
       .post("http://localhost:4000/users/create-token", { code })
       .then((response) => {
@@ -35,7 +42,7 @@ export default function Login() {
   }
 
   async function getEvents() {
-    console.log(gapi.client.getToken());
+    // console.log(gapi.client.getToken());
     const request = {
       calendarId: "primary",
       timeMin: new Date().toISOString(),
@@ -89,6 +96,7 @@ export default function Login() {
         cookiePolicy={"single_host_origin"}
         responseType="code"
         accessType="offline"
+        isSignedIn={true}
         scope="openid email profile https://www.googleapis.com/auth/calendar  https://www.googleapis.com/auth/calendar.readonly"
       />
     </div>

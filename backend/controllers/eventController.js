@@ -45,7 +45,13 @@ const addEvents = async (req, res) => {
 
 //get all User events using access toke
 const getAllUserEvents = async (req, res) => {
-  res.send("All user events ");
+  try {
+    const events = await Event.find({ email: "b.mans77zh@gmail.com" }).exec();
+    console.log(events);
+    res.send(events);
+  } catch (err) {
+    res.send(err);
+  }
 };
 
 module.exports = { getAllEvents, addEvents, getAllUserEvents };
