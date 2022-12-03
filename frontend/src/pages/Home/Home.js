@@ -1,8 +1,12 @@
 import React, { useState } from "react";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
+import {
+  useGetTodosByIdQuery,
+  useGetTodosQuery,
+} from "../../redux/features/service";
 import "./Home.css";
 
-const data = [
+const eventsdata = [
   {
     id: "1",
     title: "To do",
@@ -65,9 +69,30 @@ const onDragEnd = (result, columns, setColumns) => {
 };
 
 export default function Home() {
-  const [columns, setColumns] = useState(data);
+  const { data, error, isLoading } = useGetTodosByIdQuery("1");
+
+  const {
+    data: allTodosData,
+    error: allTodosError,
+    isLoading: AllTodosLoading,
+  } = useGetTodosQuery();
+
+  // const { todos, err, isLoadingg } = useGetTodosQuery();
+
+  const [columns, setColumns] = useState(eventsdata);
   return (
     <div className="container">
+      {console.log(allTodosData)}
+      {error ? (
+        <>Oh no, there was an error</>
+      ) : isLoading ? (
+        <>Loading...</>
+      ) : data ? (
+        <>
+          <h3>{data.title}</h3>
+        </>
+      ) : null}
+
       {/* {columns.map((column) => {
         console.log(column.title);
         column.items.map((item) => {

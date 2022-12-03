@@ -16,8 +16,8 @@ const addEvents = async (req, res) => {
 
     if (userinfo.email) {
       const user = await User.findOne({ email: userinfo.email });
-      console.log(user);
-      console.log(req.body);
+      // console.log(user);
+      // console.log(req.body);
       var addEvents = [];
       req.body.map((event) => {
         addEvents.push({
@@ -32,7 +32,7 @@ const addEvents = async (req, res) => {
         title: "To do",
         events: addEvents,
       });
-      await events.save();
+      // await events.save();
 
       //add the events in req.body to database and set the user as user.id
     }
@@ -43,4 +43,9 @@ const addEvents = async (req, res) => {
   // res.json({ "Add Events": "eventsssssss" });
 };
 
-module.exports = { getAllEvents, addEvents };
+//get all User events using access toke
+const getAllUserEvents = async (req, res) => {
+  res.send("All user events ");
+};
+
+module.exports = { getAllEvents, addEvents, getAllUserEvents };

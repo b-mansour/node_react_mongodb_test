@@ -6,4 +6,6 @@ router.get("/", eventController.getAllEvents);
 
 router.post("/add-events", eventController.addEvents);
 
+router.get("/all-user-events", eventController.getAllUserEvents);
+
 module.exports = router;

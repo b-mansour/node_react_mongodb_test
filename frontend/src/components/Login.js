@@ -1,4 +1,3 @@
-import React, { useState } from "react";
 import { GoogleLogin } from "react-google-login";
 import { gapi } from "gapi-script";
 import { useEffect } from "react";
@@ -11,11 +10,12 @@ export default function Login() {
     function start() {
       gapi.auth2.init({
         clientId: clientId,
+        scope:
+          "openid email profile https://www.googleapis.com/auth/calendar  https://www.googleapis.com/auth/calendar.readonly",
       });
     }
 
     gapi.load("client:auth2", start);
-    // console.log(gapi.client());
   });
 
   function responseGoogleSuccess(response) {

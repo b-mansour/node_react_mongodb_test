@@ -6,6 +6,8 @@ import reportWebVitals from "./reportWebVitals";
 import "bootstrap/dist/css/bootstrap.css";
 import { store } from "./redux/store";
 import { Provider } from "react-redux";
+import { ApiProvider } from "@reduxjs/toolkit/query/react";
+import { eventsApi } from "./redux/features/service";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -13,7 +15,9 @@ root.render(
   // <App />
   // </React.StrictMode>
   <Provider store={store}>
-    <App />
+    <ApiProvider api={eventsApi}>
+      <App />
+    </ApiProvider>
   </Provider>
 );
 
