@@ -1,12 +1,12 @@
 import { GoogleLogin } from "react-google-login";
 import { gapi } from "gapi-script";
 import { useEffect, useContext } from "react";
-import { AppContext } from "../App";
+// import { AppContext } from "../App";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 export default function Login() {
-  const { accessToken } = useContext(AppContext);
+  // const { accessToken, setAccessToken } = useContext(AppContext);
   const clientId = process.env.REACT_APP_GOOGLE_CLIENT_ID;
   const navigate = useNavigate();
 
@@ -23,9 +23,6 @@ export default function Login() {
   });
 
   function responseGoogleSuccess(response) {
-    if (accessToken) {
-      navigate("/");
-    }
     // console.log(gapi.client.getToken());
     // console.log(response);
     // var auth2 = gapi.auth2.getAuthInstance();
@@ -46,6 +43,7 @@ export default function Login() {
       });
 
     getEvents();
+    // navigate("/");
   }
 
   // Gets user events from google calendar and add it to db
@@ -63,6 +61,7 @@ export default function Login() {
       gapi.client.load("calendar", "v3", () => {
         gapi.client.calendar.events.list(request).then(function (response) {
           let events = response.result.items;
+          console.log(events);
           // add user's google events to db;
           addEvents(events);
         });

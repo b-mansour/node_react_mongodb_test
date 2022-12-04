@@ -1,13 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 
-import {
-  useGetTodosByIdQuery,
-  useGetEventsQuery,
-} from "../../redux/features/service";
+import { useGetEventsQuery } from "../../redux/features/service";
 import "./Home.css";
 
-const clientId = process.env.REACT_APP_GOOGLE_CLIENT_ID;
+// const clientId = process.env.REACT_APP_GOOGLE_CLIENT_ID;
 
 const eventsdata = [
   {
@@ -108,12 +105,12 @@ const onDragEnd = (result, columns, setColumns) => {
 };
 
 export default function Home() {
-  const { data, error, isLoading } = useGetTodosByIdQuery("1");
+  // const { data, error, isLoading } = useGetTodosByIdQuery("1");
 
   const {
-    data: allEventsData,
-    error: allEventsError,
-    isLoading: AllEventsLoading,
+    data: Events,
+    error: EventsError,
+    isLoading: EventsLoading,
   } = useGetEventsQuery();
 
   // const { todos, err, isLoadingg } = useGetEventsQuery();
@@ -121,24 +118,14 @@ export default function Home() {
   const [columns, setColumns] = useState(eventsdata);
   return (
     <div className="container">
-      {console.log(allEventsData)}
-
-      {error ? (
+      {EventsError ? (
         <>Oh no, there was an error</>
-      ) : isLoading ? (
+      ) : EventsLoading ? (
         <>Loading...</>
-      ) : data ? (
-        <>
-          <h3>{data.title}</h3>
-        </>
+      ) : Events ? (
+        <>{console.log(Events)}</>
       ) : null}
 
-      {/* {columns.map((column) => {
-        console.log(column.title);
-        column.items.map((item) => {
-          console.log(item.content);
-        });
-      })} */}
       <DragDropContext
         onDragEnd={(result) => onDragEnd(result, columns, setColumns)}
       >

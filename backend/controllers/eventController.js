@@ -16,16 +16,24 @@ const addEvents = async (req, res) => {
 
     if (userinfo.email) {
       const user = await User.findOne({ email: userinfo.email });
-      // console.log(user);
-      // console.log(req.body);
+      const dbevents = await Event.findOne({ user_id: user._id });
+      const last_updated_date = new Date(dbevents.updatedAt).getTime();
+
+      var events = req.body;
       var addEvents = [];
-      req.body.map((event) => {
-        addEvents.push({
-          summary: event.summary,
-          description: event.description,
-        });
-        console.log(event.description);
+
+      events.map((event) => {
+        const event_creation_date = new Date(event.created).getTime();
+        if (event_creation_date > last_updated_date) {
+          console.log(event.created);
+          addEvents.push({
+            summary: event.summary,
+            description: event.description,
+          });
+        }
       });
+
+      // Todo update event to added events from google calendar
 
       var events = new Event({
         user_id: user._id,
