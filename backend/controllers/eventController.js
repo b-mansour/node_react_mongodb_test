@@ -16,7 +16,12 @@ const addEvents = async (req, res) => {
 
     if (userinfo.email) {
       const user = await User.findOne({ email: userinfo.email });
-      const dbevents = await Event.findOne({ user_id: user._id });
+      const dbevents = await Event.findOne({
+        user_id: user._id,
+        title: "To do",
+      });
+
+      console.log(dbevents);
       const last_updated_date = new Date(dbevents.updatedAt).getTime();
 
       var events = req.body;
@@ -48,7 +53,6 @@ const addEvents = async (req, res) => {
     console.log(error);
   }
   // console.log(JSON.stringify(req.headers.connection));
-  // res.json({ "Add Events": "eventsssssss" });
 };
 
 //get all User events using access toke
