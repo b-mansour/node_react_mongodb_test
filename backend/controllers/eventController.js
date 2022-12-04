@@ -58,9 +58,12 @@ const addEvents = async (req, res) => {
 //get all User events using access toke
 const getAllUserEvents = async (req, res) => {
   try {
-    const events = await Event.find({ email: "b.mans77zh@gmail.com" }).exec();
-    console.log(events);
-    res.send(events);
+    const getUser = getUserDataByAccessToken(req.headers.access_token);
+    const userinfo = await getUser;
+    // console.log(userinfo);
+    const events = await Event.find({ email: userinfo.email }).exec();
+    // console.log(events);
+    res.status(200).json(events);
   } catch (err) {
     res.send(err);
   }

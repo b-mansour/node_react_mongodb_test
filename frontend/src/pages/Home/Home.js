@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 
 import { useGetEventsQuery } from "../../redux/features/service";
@@ -105,17 +105,20 @@ const onDragEnd = (result, columns, setColumns) => {
 };
 
 export default function Home() {
-  // const { data, error, isLoading } = useGetTodosByIdQuery("1");
-
   const {
     data: Events,
     error: EventsError,
     isLoading: EventsLoading,
   } = useGetEventsQuery();
+  // const { data, error, isLoading } = useGetTodosByIdQuery("1");
+  const [columns, setColumns] = useState(eventsdata);
+
+  useEffect(() => {
+    // console.log(localStorage.getItem("access_token"));
+  });
 
   // const { todos, err, isLoadingg } = useGetEventsQuery();
 
-  const [columns, setColumns] = useState(eventsdata);
   return (
     <div className="container">
       {EventsError ? (
@@ -123,63 +126,63 @@ export default function Home() {
       ) : EventsLoading ? (
         <>Loading...</>
       ) : Events ? (
-        <>{console.log(Events)}</>
+        <>
+          <DragDropContext
+            onDragEnd={(result) => onDragEnd(result, columns, setColumns)}
+          >
+            {Events.map((column) => {
+              return (
+                <Droppable key={column._id} droppableId={column._id}>
+                  {(provided, snapshot) => {
+                    return (
+                      <div
+                        className="droppable"
+                        {...provided.droppableProps}
+                        ref={provided.innerRef}
+                        style={{
+                          background: snapshot.isDraggingOver
+                            ? "#b4b8b7"
+                            : "#737877",
+                        }}
+                      >
+                        {column.events.map((item, index) => {
+                          return (
+                            <Draggable
+                              key={item._id}
+                              draggableId={item._id}
+                              index={index}
+                            >
+                              {(provided, snapshot) => {
+                                return (
+                                  <div
+                                    className="draggable"
+                                    ref={provided.innerRef}
+                                    {...provided.draggableProps}
+                                    {...provided.dragHandleProps}
+                                    style={{
+                                      background: snapshot.isDragging
+                                        ? "yellow"
+                                        : "blue",
+                                      ...provided.draggableProps.style,
+                                    }}
+                                  >
+                                    {item.summary}
+                                  </div>
+                                );
+                              }}
+                            </Draggable>
+                          );
+                        })}
+                        {provided.placeholder}
+                      </div>
+                    );
+                  }}
+                </Droppable>
+              );
+            })}
+          </DragDropContext>
+        </>
       ) : null}
-
-      <DragDropContext
-        onDragEnd={(result) => onDragEnd(result, columns, setColumns)}
-      >
-        {columns.map((column) => {
-          return (
-            <Droppable key={column.id} droppableId={column.id}>
-              {(provided, snapshot) => {
-                return (
-                  <div
-                    className="droppable"
-                    {...provided.droppableProps}
-                    ref={provided.innerRef}
-                    style={{
-                      background: snapshot.isDraggingOver
-                        ? "#b4b8b7"
-                        : "#737877",
-                    }}
-                  >
-                    {column.items.map((item, index) => {
-                      return (
-                        <Draggable
-                          key={item.id}
-                          draggableId={item.id}
-                          index={index}
-                        >
-                          {(provided, snapshot) => {
-                            return (
-                              <div
-                                className="draggable"
-                                ref={provided.innerRef}
-                                {...provided.draggableProps}
-                                {...provided.dragHandleProps}
-                                style={{
-                                  background: snapshot.isDragging
-                                    ? "yellow"
-                                    : "blue",
-                                  ...provided.draggableProps.style,
-                                }}
-                              >
-                                {item.content}
-                              </div>
-                            );
-                          }}
-                        </Draggable>
-                      );
-                    })}
-                    {provided.placeholder}
-                  </div>
-                );
-              }}
-            </Droppable>
-          );
-        })}
-      </DragDropContext>
     </div>
   );
 }

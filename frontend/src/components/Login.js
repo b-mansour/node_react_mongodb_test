@@ -1,6 +1,6 @@
 import { GoogleLogin } from "react-google-login";
 import { gapi } from "gapi-script";
-import { useEffect, useContext } from "react";
+import { useEffect } from "react";
 // import { AppContext } from "../App";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
@@ -23,6 +23,7 @@ export default function Login() {
   });
 
   function responseGoogleSuccess(response) {
+    localStorage.setItem("access_token", gapi.client.getToken().access_token);
     // console.log(gapi.client.getToken());
     // console.log(response);
     // var auth2 = gapi.auth2.getAuthInstance();
