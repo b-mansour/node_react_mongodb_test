@@ -1,10 +1,14 @@
 import { GoogleLogin } from "react-google-login";
 import { gapi } from "gapi-script";
-import { useEffect } from "react";
+import { useEffect, useContext } from "react";
+import { AppContext } from "../App";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 export default function Login() {
+  const { accessToken } = useContext(AppContext);
   const clientId = process.env.REACT_APP_GOOGLE_CLIENT_ID;
+  const navigate = useNavigate();
 
   useEffect(() => {
     function start() {
@@ -19,6 +23,9 @@ export default function Login() {
   });
 
   function responseGoogleSuccess(response) {
+    if (accessToken) {
+      navigate("/");
+    }
     // console.log(gapi.client.getToken());
     // console.log(response);
     // var auth2 = gapi.auth2.getAuthInstance();
@@ -26,8 +33,8 @@ export default function Login() {
 
     // console.log(profile.getName());
     // console.log(profile.getEmail());
-
     const { code } = response;
+
     console.log(gapi.client.getToken());
     axios
       .post("http://localhost:4000/users/create-token", { code })
@@ -41,8 +48,8 @@ export default function Login() {
     getEvents();
   }
 
+  // Gets user events from google calendar and add it to db
   async function getEvents() {
-    // console.log(gapi.client.getToken());
     const request = {
       calendarId: "primary",
       timeMin: new Date().toISOString(),
@@ -56,8 +63,7 @@ export default function Login() {
       gapi.client.load("calendar", "v3", () => {
         gapi.client.calendar.events.list(request).then(function (response) {
           let events = response.result.items;
-          // console.log(events);
-          // todo: add events to db
+          // add user's google events to db;
           addEvents(events);
         });
       });
@@ -65,7 +71,6 @@ export default function Login() {
   }
 
   function addEvents(events) {
-    // console.log(events);
     const headers = {
       "Content-Type": "application/json",
       access_token: gapi.client.getToken().access_token,
@@ -86,6 +91,7 @@ export default function Login() {
   const responseGoogleError = (error) => {
     console.log(error);
   };
+
   return (
     <div>
       <GoogleLogin

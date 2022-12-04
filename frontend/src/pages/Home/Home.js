@@ -3,7 +3,7 @@ import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 
 import {
   useGetTodosByIdQuery,
-  useGetTodosQuery,
+  useGetEventsQuery,
 } from "../../redux/features/service";
 import "./Home.css";
 
@@ -19,6 +19,18 @@ const eventsdata = [
         title: "title",
         content: "content",
       },
+
+      {
+        id: "764378974382",
+        title: "title",
+        content: "content",
+      },
+
+      {
+        id: "7643789743866",
+        title: "title",
+        content: "content",
+      },
     ],
   },
   {
@@ -30,6 +42,18 @@ const eventsdata = [
         title: "title",
         content: "content",
       },
+
+      {
+        id: "298634789387",
+        title: "title",
+        content: "content",
+      },
+
+      {
+        id: "298724789387",
+        title: "title",
+        content: "content",
+      },
     ],
   },
   {
@@ -38,6 +62,18 @@ const eventsdata = [
     items: [
       {
         id: "3887438973498",
+        title: "title",
+        content: "content",
+      },
+
+      {
+        id: "38874383498",
+        title: "title",
+        content: "content",
+      },
+
+      {
+        id: "38874373498",
         title: "title",
         content: "content",
       },
@@ -75,17 +111,17 @@ export default function Home() {
   const { data, error, isLoading } = useGetTodosByIdQuery("1");
 
   const {
-    data: allTodosData,
-    error: allTodosError,
-    isLoading: AllTodosLoading,
-  } = useGetTodosQuery();
+    data: allEventsData,
+    error: allEventsError,
+    isLoading: AllEventsLoading,
+  } = useGetEventsQuery();
 
-  // const { todos, err, isLoadingg } = useGetTodosQuery();
+  // const { todos, err, isLoadingg } = useGetEventsQuery();
 
   const [columns, setColumns] = useState(eventsdata);
   return (
     <div className="container">
-      {/* {console.log(allTodosData)} */}
+      {console.log(allEventsData)}
 
       {error ? (
         <>Oh no, there was an error</>
