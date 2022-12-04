@@ -22,11 +22,11 @@ export const eventsApi = createApi({
     }),
 
     updateEvent: builder.mutation({
-      query: (todo, access_token) => ({
-        url: `/todo/${todo.id}`,
+      query: (data, access_token) => ({
+        url: "/events/change-event-column",
         headers: { access_token: access_token },
-        method: "PATCH",
-        body: todo,
+        method: "POST",
+        body: data,
       }),
     }),
   }),

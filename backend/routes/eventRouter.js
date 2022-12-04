@@ -8,4 +8,6 @@ router.post("/add-events", eventController.addEvents);
 
 router.get("/all-user-events", eventController.getAllUserEvents);
 
+router.post("/change-event-column", eventController.changeEventColumn);
+
 module.exports = router;

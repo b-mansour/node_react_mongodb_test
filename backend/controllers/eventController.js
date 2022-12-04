@@ -1,4 +1,4 @@
-const { getUserDataByAccessToken, findOrCreate } = require("../helpers");
+const { getUserDataByAccessToken } = require("../helpers");
 const User = require("../models/User");
 const Event = require("../models/Event");
 
@@ -63,10 +63,22 @@ const getAllUserEvents = async (req, res) => {
     // console.log(userinfo);
     const events = await Event.find({ email: userinfo.email }).exec();
     // console.log(events);
-    res.status(200).json(events);
+    res.status(200).send(events);
   } catch (err) {
     res.send(err);
   }
 };
 
-module.exports = { getAllEvents, addEvents, getAllUserEvents };
+const changeEventColumn = async (req, res) => {
+  console.log("An Event request hit");
+  console.log(req.body);
+  console.log(req.headers);
+  res.send("change event column");
+};
+
+module.exports = {
+  getAllEvents,
+  addEvents,
+  getAllUserEvents,
+  changeEventColumn,
+};

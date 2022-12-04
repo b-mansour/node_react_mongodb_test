@@ -2,12 +2,15 @@
   display: flex;
   justify-content: center;
   height: 100%;
+  margin: 0px !important;
+  justify-content: space-between !important;
 }
 
 .droppable {
   padding: 5px;
   width: 260px;
   min-height: 500px;
+  text-align: center;
 }
 
 .draggable {

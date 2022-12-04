@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 
-import { useGetEventsQuery } from "../../redux/features/service";
+import {
+  useGetEventsQuery,
+  useUpdateEventMutation,
+} from "../../redux/features/service";
 import "./Home.css";
 
 // const clientId = process.env.REACT_APP_GOOGLE_CLIENT_ID;
@@ -78,10 +81,12 @@ const eventsdata = [
   },
 ];
 
-const onDragEnd = (result, columns, setColumns) => {
+const onDragEnd = (result, changeEventColumn) => {
   if (!result.destination) {
     return;
   }
+
+  changeEventColumn(result);
 
   console.log(result);
 
@@ -105,19 +110,20 @@ const onDragEnd = (result, columns, setColumns) => {
 };
 
 export default function Home() {
+  const [columns, setColumns] = useState(eventsdata);
+
   const {
     data: Events,
     error: EventsError,
     isLoading: EventsLoading,
   } = useGetEventsQuery();
+
+  const [changeEventColumn] = useUpdateEventMutation();
   // const { data, error, isLoading } = useGetTodosByIdQuery("1");
-  const [columns, setColumns] = useState(eventsdata);
 
   useEffect(() => {
-    // console.log(localStorage.getItem("access_token"));
+    console.log(localStorage.getItem("access_token"));
   });
-
-  // const { todos, err, isLoadingg } = useGetEventsQuery();
 
   return (
     <div className="container">
@@ -128,7 +134,7 @@ export default function Home() {
       ) : Events ? (
         <>
           <DragDropContext
-            onDragEnd={(result) => onDragEnd(result, columns, setColumns)}
+            onDragEnd={(result) => onDragEnd(result, changeEventColumn)}
           >
             {Events.map((column) => {
               return (
@@ -145,6 +151,8 @@ export default function Home() {
                             : "#737877",
                         }}
                       >
+                        <h2 className="droppable-title">{column.title}</h2>
+
                         {column.events.map((item, index) => {
                           return (
                             <Draggable
@@ -166,7 +174,7 @@ export default function Home() {
                                       ...provided.draggableProps.style,
                                     }}
                                   >
-                                    {item.summary}
+                                    {item.description}
                                   </div>
                                 );
                               }}
