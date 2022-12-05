@@ -71,8 +71,43 @@ const getAllUserEvents = async (req, res) => {
 const changeEventColumn = async (req, res) => {
   console.log("An Event request hit");
   console.log(req.body);
-  console.log(req.headers);
+  // console.log(req.headers);
   res.send("change event column");
+  const { destination, draggableId, source } = req.body;
+
+  const draggedevent = await Event.find(
+    {
+      events: {
+        $elemMatch: {
+          _id: draggableId,
+        },
+      },
+    },
+    { "events.$": 1 }
+  ).exec();
+
+  console.log(draggedevent[0].events);
+
+  const eventpush = await Event.findByIdAndUpdate(
+    { _id: destination.droppableId },
+    {
+      $push: {
+        events: { $each: draggedevent[0].events, $position: destination.index },
+      },
+    }
+  ).exec();
+
+  // db.collection.update(
+  //   {
+  //     key: 1,
+  //   },
+  //   {
+  //     $set: {
+  //       "questions.1.answered": "second answer",
+  //       "questions.2.answered": "third answer",
+  //     },
+  //   }
+  // );
 };
 
 module.exports = {
