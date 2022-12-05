@@ -21,33 +21,32 @@ const addEvents = async (req, res) => {
         title: "To do",
       });
 
-      console.log(dbevents);
-      const last_updated_date = new Date(dbevents.updatedAt).getTime();
-
       var events = req.body;
+
+      // console.log(dbevents);
+      const last_updated_date = new Date(dbevents.updatedAt).getTime();
+      console.log(last_updated_date);
+
       var addEvents = [];
 
       events.map((event) => {
         const event_creation_date = new Date(event.created).getTime();
         if (event_creation_date > last_updated_date) {
-          console.log(event.created);
+          console.log(event_creation_date);
+
           addEvents.push({
             summary: event.summary,
             description: event.description,
+            google_event_id: event.id,
           });
         }
       });
 
-      // Todo update event to added events from google calendar
-
-      var events = new Event({
-        user_id: user._id,
-        title: "To do",
-        events: addEvents,
-      });
-      // await events.save();
-
-      //add the events in req.body to database and set the user as user.id
+      if (addEvents.length > 0) {
+        console.log(addEvents);
+        dbevents.update({ $addToSet: { events: { $each: addEvents } } }).exec();
+        console.log("Updated events");
+      }
     }
   } catch (error) {
     console.log(error);

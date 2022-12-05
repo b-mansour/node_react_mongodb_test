@@ -17,6 +17,7 @@ const EventSchema = new Schema(
       {
         summary: "string",
         description: "string",
+        google_event_id: "string",
       },
     ],
   },
