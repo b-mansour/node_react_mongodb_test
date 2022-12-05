@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
+import { useNavigate } from "react-router-dom";
 
 import {
   useGetEventsQuery,
@@ -8,78 +9,6 @@ import {
 import "./Home.css";
 
 // const clientId = process.env.REACT_APP_GOOGLE_CLIENT_ID;
-
-const eventsdata = [
-  {
-    id: "1",
-    title: "To do",
-    items: [
-      {
-        id: "764378974389",
-        title: "title",
-        content: "content",
-      },
-
-      {
-        id: "764378974382",
-        title: "title",
-        content: "content",
-      },
-
-      {
-        id: "7643789743866",
-        title: "title",
-        content: "content",
-      },
-    ],
-  },
-  {
-    id: "2",
-    title: "In Progress",
-    items: [
-      {
-        id: "298734789387",
-        title: "title",
-        content: "content",
-      },
-
-      {
-        id: "298634789387",
-        title: "title",
-        content: "content",
-      },
-
-      {
-        id: "298724789387",
-        title: "title",
-        content: "content",
-      },
-    ],
-  },
-  {
-    id: "3",
-    title: "Completed",
-    items: [
-      {
-        id: "3887438973498",
-        title: "title",
-        content: "content",
-      },
-
-      {
-        id: "38874383498",
-        title: "title",
-        content: "content",
-      },
-
-      {
-        id: "38874373498",
-        title: "title",
-        content: "content",
-      },
-    ],
-  },
-];
 
 const onDragEnd = (result, changeEventColumn) => {
   if (!result.destination) {
@@ -110,7 +39,7 @@ const onDragEnd = (result, changeEventColumn) => {
 };
 
 export default function Home() {
-  const [columns, setColumns] = useState(eventsdata);
+  const navigate = useNavigate();
 
   const {
     data: Events,
@@ -122,8 +51,11 @@ export default function Home() {
   // const { data, error, isLoading } = useGetTodosByIdQuery("1");
 
   useEffect(() => {
+    if (!localStorage.getItem("access_token")) {
+      navigate("/login");
+    }
     console.log(localStorage.getItem("access_token"));
-  });
+  }, [Events]);
 
   return (
     <div className="container">

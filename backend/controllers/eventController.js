@@ -73,6 +73,7 @@ const changeEventColumn = async (req, res) => {
   console.log(req.body);
   // console.log(req.headers);
   res.send("change event column");
+
   const { destination, draggableId, source } = req.body;
 
   const draggedevent = await Event.find(
@@ -87,27 +88,45 @@ const changeEventColumn = async (req, res) => {
   ).exec();
 
   console.log(draggedevent[0].events);
+  const dragged_event = draggedevent[0].events;
 
-  const eventpush = await Event.findByIdAndUpdate(
-    { _id: destination.droppableId },
-    {
-      $push: {
-        events: { $each: draggedevent[0].events, $position: destination.index },
-      },
-    }
-  ).exec();
+  if (source.droppableId !== destination.droppableId) {
+    await Event.findByIdAndUpdate(
+      { _id: destination.droppableId },
+      {
+        $push: {
+          events: {
+            $each: dragged_event,
+            $position: destination.index,
+          },
+        },
+      }
+    ).exec();
 
-  // db.collection.update(
-  //   {
-  //     key: 1,
-  //   },
-  //   {
-  //     $set: {
-  //       "questions.1.answered": "second answer",
-  //       "questions.2.answered": "third answer",
-  //     },
-  //   }
-  // );
+    await Event.findByIdAndUpdate(
+      { _id: source.droppableId },
+      { $pull: { events: { _id: draggableId } } }
+      // { multi: true }
+    ).exec();
+  } else if (source.droppableId == destination.droppableId) {
+    await Event.findByIdAndUpdate(
+      { _id: source.droppableId },
+      { $pull: { events: { _id: draggableId } } }
+      // { multi: true }
+    ).exec();
+
+    await Event.findByIdAndUpdate(
+      { _id: destination.droppableId },
+      {
+        $push: {
+          events: {
+            $each: dragged_event,
+            $position: destination.index,
+          },
+        },
+      }
+    ).exec();
+  }
 };
 
 module.exports = {
