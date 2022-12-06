@@ -59,8 +59,11 @@ const getAllUserEvents = async (req, res) => {
   try {
     const getUser = getUserDataByAccessToken(req.headers.access_token);
     const userinfo = await getUser;
+
+    const user = await User.findOne({ email: userinfo.email });
+
     // console.log(userinfo);
-    const events = await Event.find({ email: userinfo.email }).exec();
+    const events = await Event.find({ user_id: user._id }).exec();
     // console.log(events);
     res.status(200).send(events);
   } catch (err) {
