@@ -1,0 +1,30 @@
+.container {
+  display: flex;
+  justify-content: center;
+  height: 100%;
+  margin: 0px !important;
+  justify-content: space-between !important;
+}
+
+.droppable {
+  padding: 5px;
+  margin-top: 30px;
+  width: 320px;
+  min-height: 500px;
+  min-width: 320px;
+  text-align: center;
+  align-items: center;
+}
+
+.draggable {
+  user-select: none;
+  padding: 20px;
+  width: 300px;
+  height: 100px;
+  margin: 5px;
+  /* margin: 0 0 7pc 0; */
+  min-height: "50px";
+  color: #000;
+  text-align: center;
+  border-radius: 10px;
+}
