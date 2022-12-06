@@ -8,9 +8,10 @@
 
 .droppable {
   padding: 5px;
-  margin: 7px;
+  margin-top: 30px;
   width: 320px;
   min-height: 500px;
+  min-width: 320px;
   text-align: center;
   align-items: center;
 }
@@ -23,6 +24,7 @@
   margin: 5px;
   /* margin: 0 0 7pc 0; */
   min-height: "50px";
-  color: white;
+  color: #000;
   text-align: center;
+  border-radius: 10px;
 }

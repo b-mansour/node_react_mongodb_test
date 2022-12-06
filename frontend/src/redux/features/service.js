@@ -9,16 +9,15 @@ export const eventsApi = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: "http://localhost:4000/",
   }),
+  tagTypes: ["Event"],
   endpoints: (builder) => ({
-    // getTodosById: builder.query({
-    //   query: (id) => `todos/${id}`,
-    // }),
     getEvents: builder.query({
       query: () => ({
         url: "events/all-user-events",
         headers: { access_token: access_token },
         method: "GET",
       }),
+      providesTags: ["Event"],
     }),
 
     updateEvent: builder.mutation({
@@ -28,6 +27,7 @@ export const eventsApi = createApi({
         method: "POST",
         body: data,
       }),
+      invalidatesTags: ["Event"],
     }),
   }),
 });

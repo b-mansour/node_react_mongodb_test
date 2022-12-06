@@ -10,32 +10,27 @@ import "./Home.css";
 
 // const clientId = process.env.REACT_APP_GOOGLE_CLIENT_ID;
 
-const onDragEnd = (result, changeEventColumn) => {
+const onDragEnd = (result, changeEventColumn, Events) => {
   if (!result.destination) {
     return;
   }
+  // const { source, destination } = result;
+  // console.log(Events);
+  // const column = Events.filter((event) => event._id === source.droppableId);
+  // console.log(column);
+  // const eventsCopy = [...column[0].events];
+  // console.log(eventsCopy);
+  // console.log("index" + source.index);
+  // const [removed] = eventsCopy.splice(source.index, 1);
+  // eventsCopy.slice(destination.index, 0, removed);
+
+  // console.log(eventsCopy);
+
+  // console.log(eventsCopy);
 
   changeEventColumn(result);
 
   console.log(result);
-
-  // else {
-  //   const { source, destination } = result;
-  //   // console.log("source is " + source);
-  //   // console.log("destination is" + destination);
-
-  //   const column = columns[source.droppableId];
-  //   const itemscopy = [...column.items];
-  //   const [removed] = itemscopy.splice(source.index, 1);
-  //   itemscopy.splice(destination.index, 0, removed);
-  //   setColumns({
-  //     ...columns,
-  //     [source.droppableId]: {
-  //       ...column,
-  //       items: itemscopy,
-  //     },
-  //   });
-  // }
 };
 
 export default function Home() {
@@ -66,7 +61,7 @@ export default function Home() {
       ) : Events ? (
         <>
           <DragDropContext
-            onDragEnd={(result) => onDragEnd(result, changeEventColumn)}
+            onDragEnd={(result) => onDragEnd(result, changeEventColumn, Events)}
           >
             {Events.map((column) => {
               return (
@@ -102,7 +97,7 @@ export default function Home() {
                                     style={{
                                       background: snapshot.isDragging
                                         ? "yellow"
-                                        : "blue",
+                                        : "#f2f2f2",
                                       ...provided.draggableProps.style,
                                     }}
                                   >
