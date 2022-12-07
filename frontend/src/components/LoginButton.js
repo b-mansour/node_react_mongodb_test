@@ -37,7 +37,7 @@ export default function Login() {
       });
 
     getEvents();
-    // navigate("/");
+    navigate("/");
   }
 
   // Gets user events from google calendar and add it to db
