@@ -21,20 +21,23 @@ const onDragEnd = (
   if (!result.destination) {
     return;
   }
+  // console.log(eventColumns);
   // setEventColumns(Events);
 
+  const { source, destination } = result;
   // console.log(Events);
-  // const { source, destination } = result;
-  // console.log(Events);
-  // const column = Events.filter((event) => event._id === source.droppableId);
-  // console.log(column);
+  const column = eventColumns.filter(
+    (event) => event._id === source.droppableId
+  );
+  console.log(column[0].events);
+  const removed = column[0].events[source.index];
+  console.log(removed);
+  console.log(column);
   // const eventsCopy = [...column[0].events];
   // console.log(eventsCopy);
   // console.log("index" + source.index);
   // const [removed] = eventsCopy.splice(source.index, 1);
-  // eventsCopy.slice(destination.index, 0, removed);
-
-  // console.log(eventsCopy);
+  // eventsCopy.splice(destination.index, 0, removed);
 
   // console.log(eventsCopy);
 
@@ -53,6 +56,13 @@ export default function Home() {
     isLoading: EventsLoading,
   } = useGetEventsQuery();
 
+  const assignEventColumns = () => {
+    if (Events) {
+      setEventColumns(Events);
+      // console.log(eventColumns);
+    }
+  };
+
   const checkAccessToken = async () => {
     try {
       const response = await axios.get(
@@ -61,12 +71,12 @@ export default function Home() {
         {
           headers: {
             "Content-Type": "application/json",
-            "Accept-Encoding": "application/json",
+            // "Accept-Encoding": "application/json",
           },
         }
       );
       const userinfo = response.data;
-      console.log(userinfo);
+      // console.log(userinfo);
     } catch (err) {
       console.log(err);
       navigate("/login");
@@ -76,14 +86,8 @@ export default function Home() {
   const [changeEventColumn] = useUpdateEventMutation();
 
   useEffect(() => {
-    // if (!localStorage.getItem("access_token")) {
-    // }
-
     checkAccessToken();
-
-    console.log(eventColumns);
-
-    console.log(localStorage.getItem("access_token"));
+    assignEventColumns();
   }, [Events, eventColumns]);
 
   return (
@@ -106,7 +110,7 @@ export default function Home() {
               )
             }
           >
-            {Events.map((column) => {
+            {eventColumns?.map((column) => {
               return (
                 <Droppable key={column._id} droppableId={column._id}>
                   {(provided, snapshot) => {

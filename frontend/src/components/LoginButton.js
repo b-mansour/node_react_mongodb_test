@@ -1,12 +1,10 @@
 import { GoogleLogin } from "react-google-login";
 import { gapi } from "gapi-script";
 import { useEffect } from "react";
-// import { AppContext } from "../App";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 export default function Login() {
-  // const { accessToken, setAccessToken } = useContext(AppContext);
   const clientId = process.env.REACT_APP_GOOGLE_CLIENT_ID;
   const navigate = useNavigate();
 
