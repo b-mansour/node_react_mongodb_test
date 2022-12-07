@@ -9,8 +9,6 @@ import {
 } from "../../redux/features/service";
 import "./home.css";
 
-// const clientId = process.env.REACT_APP_GOOGLE_CLIENT_ID;
-
 const onDragEnd = (
   result,
   changeEventColumn,
@@ -21,25 +19,18 @@ const onDragEnd = (
   if (!result.destination) {
     return;
   }
-  // console.log(eventColumns);
-  // setEventColumns(Events);
 
-  const { source, destination } = result;
-  // console.log(Events);
-  const column = eventColumns.filter(
-    (event) => event._id === source.droppableId
-  );
-  console.log(column[0].events);
-  const removed = column[0].events[source.index];
-  console.log(removed);
-  console.log(column);
-  // const eventsCopy = [...column[0].events];
-  // console.log(eventsCopy);
-  // console.log("index" + source.index);
-  // const [removed] = eventsCopy.splice(source.index, 1);
-  // eventsCopy.splice(destination.index, 0, removed);
+  // const { source, destination, draggableId } = result;
+  // const sourceColumn = eventColumns.forEach((column) => {
+  //   if (column._id === source.droppableId) {
+  //     console.log(column.events);
+  //     console.log(draggableId);
 
-  // console.log(eventsCopy);
+  //     // column.events.filter((event) => event._id !== draggableId);
+  //   }
+  // });
+
+  // console.log(sourceColumn);
 
   changeEventColumn(result);
 
