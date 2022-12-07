@@ -60,6 +60,8 @@ const getAllUserEvents = async (req, res) => {
     const getUser = getUserDataByAccessToken(req.headers.access_token);
     const userinfo = await getUser;
 
+    console.log(userinfo);
+
     const user = await User.findOne({ email: userinfo.email });
 
     // console.log(userinfo);
@@ -68,6 +70,7 @@ const getAllUserEvents = async (req, res) => {
     res.status(200).send(events);
   } catch (err) {
     res.send(err);
+    console.log(err);
   }
 };
 

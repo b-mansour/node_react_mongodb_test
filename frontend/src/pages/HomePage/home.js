@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 import {
   useGetEventsQuery,
@@ -52,12 +53,34 @@ export default function Home() {
     isLoading: EventsLoading,
   } = useGetEventsQuery();
 
+  const checkAccessToken = async () => {
+    try {
+      const response = await axios.get(
+        process.env.REACT_APP_GET_USER_DATA_URL +
+          localStorage.getItem("access_token"),
+        {
+          headers: {
+            "Content-Type": "application/json",
+            "Accept-Encoding": "application/json",
+          },
+        }
+      );
+      const userinfo = response.data;
+      console.log(userinfo);
+    } catch (err) {
+      console.log(err);
+      navigate("/login");
+    }
+  };
+
   const [changeEventColumn] = useUpdateEventMutation();
 
   useEffect(() => {
-    if (!localStorage.getItem("access_token")) {
-      navigate("/login");
-    }
+    // if (!localStorage.getItem("access_token")) {
+    // }
+
+    checkAccessToken();
+
     console.log(eventColumns);
 
     console.log(localStorage.getItem("access_token"));
@@ -65,6 +88,7 @@ export default function Home() {
 
   return (
     <div className="container">
+      {/* <h1 >kanban</h1> */}
       {EventsError ? (
         <>Oh no, there was an error</>
       ) : EventsLoading ? (
@@ -120,7 +144,8 @@ export default function Home() {
                                       ...provided.draggableProps.style,
                                     }}
                                   >
-                                    {item.description}
+                                    <h5> {item.summary}</h5>
+                                    <p>{item.description}</p>
                                   </div>
                                 );
                               }}

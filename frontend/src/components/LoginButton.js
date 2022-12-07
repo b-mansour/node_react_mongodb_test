@@ -24,13 +24,6 @@ export default function Login() {
 
   function responseGoogleSuccess(response) {
     localStorage.setItem("access_token", gapi.client.getToken().access_token);
-    // console.log(gapi.client.getToken());
-    // console.log(response);
-    // var auth2 = gapi.auth2.getAuthInstance();
-    // var profile = auth2.currentUser.get().getBasicProfile();
-
-    // console.log(profile.getName());
-    // console.log(profile.getEmail());
     const { code } = response;
 
     console.log(gapi.client.getToken());
