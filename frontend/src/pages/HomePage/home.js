@@ -19,18 +19,31 @@ const onDragEnd = (
   if (!result.destination) {
     return;
   }
+  var test;
 
-  // const { source, destination, draggableId } = result;
-  // const sourceColumn = eventColumns.forEach((column) => {
-  //   if (column._id === source.droppableId) {
-  //     console.log(column.events);
-  //     console.log(draggableId);
+  const { source, destination, draggableId } = result;
 
-  //     // column.events.filter((event) => event._id !== draggableId);
-  //   }
-  // });
+  var copyEventColumns = structuredClone(eventColumns);
 
-  // console.log(sourceColumn);
+  let removed;
+
+  copyEventColumns.forEach((column, index) => {
+    if (column._id === source.droppableId) {
+      [removed] = copyEventColumns[index].events.splice(source.index, 1);
+      console.log(removed);
+    }
+  });
+
+  copyEventColumns.forEach((column, index) => {
+    if (column._id === destination.droppableId) {
+      console.log(removed);
+      if (removed) {
+        copyEventColumns[index].events.splice(destination.index, 0, removed);
+      }
+    }
+
+    setEventColumns(copyEventColumns);
+  });
 
   changeEventColumn(result);
 
@@ -79,7 +92,7 @@ export default function Home() {
   useEffect(() => {
     checkAccessToken();
     assignEventColumns();
-  }, [Events, eventColumns]);
+  }, [Events]);
 
   return (
     <div className="container">
