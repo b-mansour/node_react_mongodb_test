@@ -99,7 +99,7 @@ export default function Home() {
       {/* <h1 >kanban</h1> */}
       {EventsError ? (
         <>Oh no, there was an error</>
-      ) : EventsLoading ? (
+      ) : EventsLoading && !eventColumns ? (
         <>Loading...</>
       ) : Events ? (
         <>
