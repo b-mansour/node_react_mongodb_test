@@ -1,13 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import Kanban from "../../components/Kanban";
 
 import {
   useGetEventsQuery,
   useUpdateEventMutation,
 } from "../../redux/features/service";
-import "./home.css";
 
 const onDragEnd = (
   result,
@@ -19,9 +18,8 @@ const onDragEnd = (
   if (!result.destination) {
     return;
   }
-  var test;
 
-  const { source, destination, draggableId } = result;
+  const { source, destination } = result;
 
   var copyEventColumns = structuredClone(eventColumns);
 
@@ -53,7 +51,6 @@ const onDragEnd = (
 export default function Home() {
   const navigate = useNavigate();
   const [eventColumns, setEventColumns] = useState();
-
   const {
     data: Events,
     error: EventsError,
@@ -63,7 +60,6 @@ export default function Home() {
   const assignEventColumns = () => {
     if (Events) {
       setEventColumns(Events);
-      // console.log(eventColumns);
     }
   };
 
@@ -80,7 +76,7 @@ export default function Home() {
         }
       );
       const userinfo = response.data;
-      // console.log(userinfo);
+      console.log(userinfo);
     } catch (err) {
       console.log(err);
       navigate("/login");
@@ -96,79 +92,18 @@ export default function Home() {
 
   return (
     <div className="container">
-      {/* <h1 >kanban</h1> */}
       {EventsError ? (
         <>Oh no, there was an error</>
       ) : EventsLoading && !eventColumns ? (
         <>Loading...</>
-      ) : Events ? (
-        <>
-          <DragDropContext
-            onDragEnd={(result) =>
-              onDragEnd(
-                result,
-                changeEventColumn,
-                Events,
-                eventColumns,
-                setEventColumns
-              )
-            }
-          >
-            {eventColumns?.map((column) => {
-              return (
-                <Droppable key={column._id} droppableId={column._id}>
-                  {(provided, snapshot) => {
-                    return (
-                      <div
-                        className="droppable"
-                        {...provided.droppableProps}
-                        ref={provided.innerRef}
-                        style={{
-                          background: snapshot.isDraggingOver
-                            ? "#b4b8b7"
-                            : "#737877",
-                        }}
-                      >
-                        <h2 className="droppable-title">{column.title}</h2>
-
-                        {column.events.map((item, index) => {
-                          return (
-                            <Draggable
-                              key={item._id}
-                              draggableId={item._id}
-                              index={index}
-                            >
-                              {(provided, snapshot) => {
-                                return (
-                                  <div
-                                    className="draggable"
-                                    ref={provided.innerRef}
-                                    {...provided.draggableProps}
-                                    {...provided.dragHandleProps}
-                                    style={{
-                                      background: snapshot.isDragging
-                                        ? "yellow"
-                                        : "#f2f2f2",
-                                      ...provided.draggableProps.style,
-                                    }}
-                                  >
-                                    <h5> {item.summary}</h5>
-                                    <p>{item.description}</p>
-                                  </div>
-                                );
-                              }}
-                            </Draggable>
-                          );
-                        })}
-                        {provided.placeholder}
-                      </div>
-                    );
-                  }}
-                </Droppable>
-              );
-            })}
-          </DragDropContext>
-        </>
+      ) : Events && eventColumns ? (
+        <Kanban
+          changeEventColumn={changeEventColumn}
+          Events={Events}
+          eventColumns={eventColumns}
+          setEventColumns={setEventColumns}
+          onDragEnd={onDragEnd}
+        />
       ) : null}
     </div>
   );
