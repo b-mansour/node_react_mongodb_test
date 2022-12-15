@@ -1,23 +1,14 @@
 const express = require("express");
 const session = require("express-session");
 const mongoose = require("mongoose");
-const User = require("./models/User");
-const passport = require("passport");
 require("dotenv").config();
 const routes = require("./routes");
 const app = express();
 var cors = require("cors");
 
-require("./auth");
 app.use(express.json());
 app.use(session({ secret: "cats" }));
-app.use(passport.initialize());
-app.use(passport.session());
 app.use(cors());
-
-function isLoggedIn(req, res, next) {
-  req.user ? next() : res.sendStatus(401);
-}
 
 const port = process.env.PORT || 4000;
 
@@ -36,35 +27,5 @@ app.use("/users", routes.userRouter);
 app.use("/events", routes.listItemRouter);
 
 app.get("/", (req, res) => {
-  res.send('<a href= "/auth/google"> Authenticate with google </a>');
-});
-
-app.get("/protected", isLoggedIn, (req, res) => {
-  res.send("Welcome you are logged in");
-});
-
-app.get("/auth/failure", (req, res) => {
-  res.send("Something went wrong");
-});
-
-app.get(
-  "/auth/google",
-  passport.authenticate("google", { scope: ["email", "profile"] })
-);
-
-app.get(
-  "/auth/google/callback",
-  passport.authenticate("google", {
-    successRedirect: "/protected",
-    failureRedirect: "/auth/failure",
-  }),
-  function (req, res) {
-    // Successful authentication, redirect home.
-    res.redirect("/");
-  }
-);
-
-app.get("/logout", function (req, res) {
-  req.logout();
-  res.send("logged out");
+  res.send("Welcome  google calendar kanban apis");
 });

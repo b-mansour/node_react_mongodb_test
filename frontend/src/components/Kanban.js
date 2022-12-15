@@ -22,6 +22,7 @@ export default function Kanban({
           )
         }
       >
+        {console.log(eventColumns)}
         {eventColumns?.map((column) => {
           return (
             <Droppable key={column._id} droppableId={column._id}>

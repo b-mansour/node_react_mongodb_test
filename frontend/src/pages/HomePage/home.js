@@ -20,9 +20,7 @@ const onDragEnd = (
   }
 
   const { source, destination } = result;
-
   var copyEventColumns = structuredClone(eventColumns);
-
   let removed;
 
   copyEventColumns.forEach((column, index) => {
@@ -39,13 +37,11 @@ const onDragEnd = (
         copyEventColumns[index].events.splice(destination.index, 0, removed);
       }
     }
-
     setEventColumns(copyEventColumns);
   });
 
   changeEventColumn(result);
-
-  console.log(result);
+  // console.log(result);
 };
 
 export default function Home() {
