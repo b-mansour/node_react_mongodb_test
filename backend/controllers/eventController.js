@@ -46,7 +46,9 @@ const addEvents = async (req, res) => {
         console.log(addEvents);
         dbevents.update({ $addToSet: { events: { $each: addEvents } } }).exec();
         console.log("Updated events");
+        res.send("events updated successfully");
       }
+      res.send("Events are up to date");
     }
   } catch (error) {
     console.log(error);

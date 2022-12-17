@@ -79,11 +79,51 @@ export default function Home() {
     }
   };
 
+  const getEvents = async () => {
+    try {
+      var response = await axios.get(
+        `https://www.googleapis.com/calendar/v3/calendars/primary/events?key=${process.env.REACT_APP_GOOGLE_API_KEY}`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+            Accept: "application/json",
+          },
+        }
+      );
+      addEvents(response.data.items);
+      console.log(response.data.items);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const addEvents = async (events) => {
+    const headers = {
+      "Content-Type": "application/json",
+      access_token: localStorage.getItem("access_token"),
+    };
+
+    try {
+      var response = await axios.post(
+        "http://localhost:4000/events/add-events",
+        events,
+        {
+          headers: headers,
+        }
+      );
+      console.log(response);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const [changeEventColumn] = useUpdateEventMutation();
 
   useEffect(() => {
     checkAccessToken();
     assignEventColumns();
+    getEvents();
   }, [Events]);
 
   return (

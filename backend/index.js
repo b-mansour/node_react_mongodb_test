@@ -23,9 +23,9 @@ mongoose
   )
   .catch((err) => console.log(err));
 
-app.use("/users", routes.userRouter);
-app.use("/events", routes.listItemRouter);
-
 app.get("/", (req, res) => {
   res.send("Welcome  google calendar kanban apis");
 });
+
+app.use("/users", routes.userRouter);
+app.use("/events", routes.listItemRouter);
