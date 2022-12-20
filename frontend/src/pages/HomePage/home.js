@@ -46,7 +46,7 @@ const onDragEnd = (
 
 export default function Home() {
   const navigate = useNavigate();
-  const [eventColumns, setEventColumns] = useState();
+  const [eventColumns, setEventColumns] = useState([]);
   const {
     data: Events,
     error: EventsError,
@@ -124,6 +124,10 @@ export default function Home() {
     checkAccessToken();
     assignEventColumns();
     getEvents();
+    if (!window.location.hash && !EventsLoading) {
+      window.location.hash = "#kanban";
+      window.location.reload();
+    }
   }, [Events]);
 
   return (

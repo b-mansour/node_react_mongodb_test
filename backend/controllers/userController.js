@@ -14,12 +14,10 @@ const createToken = async function (req, res, next) {
     const token = await oauth2Client.getToken(code);
     // res.json(token);
 
-    const data = getUserDataByAccessToken(token.tokens.access_token);
-    userinfo = await data;
+    const userinfo = await getUserDataByAccessToken(token.tokens.access_token);
 
     // check if the user exist in the database and create new one if does not exist
-    const user = findOrCreate(userinfo, token.tokens.refresh_token);
-    const founduser = await user;
+    const founduser = await findOrCreate(userinfo, token.tokens.refresh_token);
     res.send({ founduser });
     // res.send(token);
   } catch (err) {
