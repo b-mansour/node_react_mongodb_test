@@ -36,7 +36,6 @@ const helpers = {
           refresh_token: refresh_token,
         });
         await user.save();
-        // console.log(user);
         client = user;
         columns.map(async (column) => {
           const eventsColumn = new Event({
@@ -45,16 +44,13 @@ const helpers = {
             events: [],
           });
           await eventsColumn.save();
-          // console.log(eventsColumn);
         });
       } else {
         client = user;
-        // console.log(user);
       }
     } catch (err) {
       console.log(err);
     }
-    // console.log(client);
     return client;
   },
 };

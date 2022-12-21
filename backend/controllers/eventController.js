@@ -8,10 +8,8 @@ const getAllEvents = async (req, res) => {
 };
 
 const addEvents = async (req, res) => {
-  // console.log(req.headers.access_token);
   try {
-    const getuser = getUserDataByAccessToken(req.headers.access_token);
-    const userinfo = await getuser;
+    const userinfo = await getUserDataByAccessToken(req.headers.access_token);
     // console.log(userinfo);
 
     if (userinfo.email) {
@@ -24,7 +22,6 @@ const addEvents = async (req, res) => {
       var events = req.body;
       // console.log(events);
 
-      // console.log(dbevents);
       const last_updated_date = new Date(dbevents.updatedAt).getTime();
       console.log(last_updated_date);
 
@@ -42,10 +39,8 @@ const addEvents = async (req, res) => {
           });
         }
       });
-      // console.log(addEvents);
 
       if (addEvents.length > 0) {
-        // console.log(addEvents);
         dbevents.update({ $addToSet: { events: { $each: addEvents } } }).exec();
         console.log("Updated events");
         res.send("events updated successfully");
@@ -55,14 +50,12 @@ const addEvents = async (req, res) => {
   } catch (error) {
     console.log(error);
   }
-  // console.log(JSON.stringify(req.headers.connection));
 };
 
 //get all User events using access toke
 const getAllUserEvents = async (req, res) => {
   try {
-    const getUser = getUserDataByAccessToken(req.headers.access_token);
-    const userinfo = await getUser;
+    const userinfo = await getUserDataByAccessToken(req.headers.access_token);
 
     // console.log(userinfo);
 

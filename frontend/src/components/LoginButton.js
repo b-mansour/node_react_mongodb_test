@@ -22,8 +22,6 @@ export default function Login() {
 
   function responseGoogleSuccess(response) {
     const { code } = response;
-
-    console.log(gapi.client.getToken());
     axios
       .post("http://localhost:4000/users/create-token", { code })
       .then((response) => {
@@ -32,6 +30,10 @@ export default function Login() {
       .catch((error) => {
         console.log(error.message);
       });
+
+    if (gapi.client.getToken() === null) {
+      window.location.reload();
+    }
     localStorage.setItem("access_token", gapi.client.getToken().access_token);
 
     getEvents();
