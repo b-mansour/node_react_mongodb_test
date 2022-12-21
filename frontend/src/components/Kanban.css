@@ -15,6 +15,7 @@
   text-align: center;
   align-items: center;
   border-radius: 5px;
+  overflow: auto;
 }
 
 .draggable {

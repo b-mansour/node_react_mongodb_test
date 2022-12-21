@@ -22,6 +22,7 @@ const addEvents = async (req, res) => {
       });
 
       var events = req.body;
+      // console.log(events);
 
       // console.log(dbevents);
       const last_updated_date = new Date(dbevents.updatedAt).getTime();
@@ -41,9 +42,10 @@ const addEvents = async (req, res) => {
           });
         }
       });
+      // console.log(addEvents);
 
       if (addEvents.length > 0) {
-        console.log(addEvents);
+        // console.log(addEvents);
         dbevents.update({ $addToSet: { events: { $each: addEvents } } }).exec();
         console.log("Updated events");
         res.send("events updated successfully");
@@ -62,13 +64,13 @@ const getAllUserEvents = async (req, res) => {
     const getUser = getUserDataByAccessToken(req.headers.access_token);
     const userinfo = await getUser;
 
-    console.log(userinfo);
+    // console.log(userinfo);
 
     const user = await User.findOne({ email: userinfo.email });
 
     // console.log(userinfo);
     const events = await Event.find({ user_id: user._id }).exec();
-    // console.log(events);
+    console.log(events);
     res.status(200).send(events);
   } catch (err) {
     res.send(err);

@@ -21,7 +21,6 @@ export default function Login() {
   });
 
   function responseGoogleSuccess(response) {
-    localStorage.setItem("access_token", gapi.client.getToken().access_token);
     const { code } = response;
 
     console.log(gapi.client.getToken());
@@ -33,6 +32,7 @@ export default function Login() {
       .catch((error) => {
         console.log(error.message);
       });
+    localStorage.setItem("access_token", gapi.client.getToken().access_token);
 
     getEvents();
     navigate("/");

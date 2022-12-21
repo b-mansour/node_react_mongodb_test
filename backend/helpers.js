@@ -1,5 +1,8 @@
 const axios = require("axios");
 const User = require("./models/User");
+const Event = require("./models/Event");
+
+var columns = ["To do", "In progress", "Done", "Rejected"];
 
 const helpers = {
   getUserDataByAccessToken: async (token) => {
@@ -33,8 +36,17 @@ const helpers = {
           refresh_token: refresh_token,
         });
         await user.save();
-        console.log(user);
+        // console.log(user);
         client = user;
+        columns.map(async (column) => {
+          const eventsColumn = new Event({
+            user_id: client._id,
+            title: column,
+            events: [],
+          });
+          await eventsColumn.save();
+          // console.log(eventsColumn);
+        });
       } else {
         client = user;
         // console.log(user);
